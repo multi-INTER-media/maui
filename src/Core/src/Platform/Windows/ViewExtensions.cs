@@ -358,5 +358,13 @@ namespace Microsoft.Maui.Platform
 
 			return null;
 		}
+
+		public static void UpdateInputTransparent(this FrameworkElement nativeView, IView view)
+		{
+			if (nativeView is UIElement element)
+			{ 
+				element.IsHitTestVisible = !view.InputTransparent;
+			}
+		}
 	}
 }

@@ -143,5 +143,10 @@ namespace Microsoft.Maui
 		/// Determines the drawing order of this IView within an ILayout; higher z-indexes will draw over lower z-indexes.
 		/// </summary>
 		int ZIndex { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether this element should be involved in the user interaction cycle.
+		/// </summary>
+		bool InputTransparent { get; }
 	}
 }

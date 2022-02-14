@@ -160,7 +160,6 @@ namespace Microsoft.Maui.Handlers
 			appbarLayout.AddView(nativeToolBar, 0);
 		}
 
-
 		internal static void MapToolbar(IElementHandler handler, IToolbarElement te)
 		{
 			if (te.Toolbar == null)
@@ -190,7 +189,5 @@ namespace Microsoft.Maui.Handlers
 
 			appbarLayout.AddView(nativeToolBar, 0);
 		}
-
-
 	}
 }

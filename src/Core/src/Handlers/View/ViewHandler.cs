@@ -51,6 +51,7 @@ namespace Microsoft.Maui.Handlers
 #if ANDROID || WINDOWS
 				[nameof(IToolbarElement.Toolbar)] = MapToolbar,
 #endif
+				[nameof(IView.InputTransparent)] = MapInputTransparent,
 			};
 
 		public static CommandMapper<IView, IViewHandler> ViewCommandMapper = new()
@@ -244,15 +245,7 @@ namespace Microsoft.Maui.Handlers
 		{
 			var shadow = view.Shadow;
 
-			if (shadow != null)
-			{
-				handler.HasContainer = true;
-			}
-			else
-			{
-				if (handler is ViewHandler viewHandler)
-					handler.HasContainer = viewHandler.NeedsContainer;
-			}
+			UpdateHasContainer(handler, shadow != null);
 
  			((NativeView?)handler.ContainerView)?.UpdateShadow(view);
 		}
@@ -305,6 +298,35 @@ namespace Microsoft.Maui.Handlers
 			if (view.Parent is ILayout layout)
 			{
 				layout.Handler?.Invoke(nameof(ILayoutHandler.UpdateZIndex), view);
+			}
+		}
+
+		public static void MapInputTransparent(IViewHandler handler, IView view)
+		{
+#if ANDROID
+			var inputTransparent = view.InputTransparent;
+
+			UpdateHasContainer(handler, inputTransparent);
+
+			if (handler.ContainerView is WrapperView wrapper)
+			{
+				wrapper.InputTransparent = inputTransparent;
+			}
+#else
+			((NativeView?)handler.NativeView)?.UpdateInputTransparent(view);
+#endif
+		}
+
+		static void UpdateHasContainer(IViewHandler handler, bool definitelyNeedsContainer) 
+		{
+			if (definitelyNeedsContainer)
+			{
+				handler.HasContainer = true;
+			}
+			else
+			{
+				if (handler is ViewHandler viewHandler)
+					handler.HasContainer = viewHandler.NeedsContainer;
 			}
 		}
 	}

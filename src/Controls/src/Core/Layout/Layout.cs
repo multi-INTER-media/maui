@@ -211,6 +211,9 @@ namespace Microsoft.Maui.Controls
 		{
 			NotifyHandler(nameof(ILayoutHandler.Add), index, view);
 
+			// Make sure CascadeInputTransparent is applied, if necessary
+			Handler?.UpdateValue(nameof(CascadeInputTransparent));
+
 			// Take care of the Element internal bookkeeping
 			if (view is Element element)
 			{
@@ -238,6 +241,9 @@ namespace Microsoft.Maui.Controls
 		{
 			NotifyHandler(nameof(ILayoutHandler.Insert), index, view);
 
+			// Make sure CascadeInputTransparent is applied, if necessary
+			Handler?.UpdateValue(nameof(CascadeInputTransparent));
+
 			// Take care of the Element internal bookkeeping
 			if (view is Element element)
 			{
@@ -248,6 +254,9 @@ namespace Microsoft.Maui.Controls
 		protected virtual void OnUpdate(int index, IView view, IView oldView)
 		{
 			NotifyHandler(nameof(ILayoutHandler.Update), index, view);
+
+			// Make sure CascadeInputTransparent is applied, if necessary
+			Handler?.UpdateValue(nameof(CascadeInputTransparent));
 		}
 
 		void NotifyHandler(string action, int index, IView view)
@@ -294,7 +303,7 @@ namespace Microsoft.Maui.Controls
 			set => SetValue(CascadeInputTransparentProperty, value);
 		}
 
-		public static IPropertyMapper<IView, IViewHandler> ControlsLayoutMapper = new PropertyMapper<Layout, LayoutHandler>(VisualElement.ControlsVisualElementMapper)
+		public static IPropertyMapper<IView, IViewHandler> ControlsLayoutMapper = new PropertyMapper<Layout, LayoutHandler>(ControlsVisualElementMapper)
 		{
 			[nameof(CascadeInputTransparent)] = MapInputTransparent,
 			[nameof(IView.InputTransparent)] = MapInputTransparent,
@@ -316,11 +325,6 @@ namespace Microsoft.Maui.Controls
 					visualElement.InputTransparent = true;
 				}
 			}
-
-			// OnAdd and OnInsert need to set the right value for the control
-			// OnUpdate should set it for the new control
-
-			// What should OnRemove/OnUpdate/OnClear do for removed controls? -- nothing, it should leave them as they are
 		}
 	}
 }

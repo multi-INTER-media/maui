@@ -183,7 +183,6 @@ namespace Microsoft.Maui.DeviceTests
 		protected bool GetIsAccessibilityElement(IViewHandler viewHandler) =>
 			GetSemanticNativeElement(viewHandler).ImportantForAccessibility == ImportantForAccessibility.Yes;
 
-
 		public View GetSemanticNativeElement(IViewHandler viewHandler)
 		{
 			if (viewHandler.NativeView is View sv)

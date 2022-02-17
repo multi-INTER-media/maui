@@ -425,10 +425,10 @@ namespace Microsoft.Maui.Platform
 
 		public static void UpdateInputTransparent(this UIView nativeView, IView view)
 		{
-			if (nativeView is not UIControl uiControl)
+			if (nativeView is not UIView uiView)
 				return;
 
-			uiControl.UserInteractionEnabled = !view.InputTransparent;
+			uiView.UserInteractionEnabled = !view.InputTransparent;
 		}
 	}
 }

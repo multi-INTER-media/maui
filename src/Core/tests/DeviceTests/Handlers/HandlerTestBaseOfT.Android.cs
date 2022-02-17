@@ -152,6 +152,21 @@ namespace Microsoft.Maui.DeviceTests
 			Assert.Equal(expected, result, 0);
 		}
 
+		[Fact]
+		public async Task NeedsContainerWhenInputTransparent() 
+		{
+			var view = new TStub()
+			{
+				InputTransparent = true
+			};
+
+			var handler = await CreateHandlerAsync(view);
+
+			var viewHandler = handler as ViewHandler;
+
+			Assert.True(viewHandler.NeedsContainer);
+		}
+
 		protected string GetAutomationId(IViewHandler viewHandler) =>
 			$"{GetSemanticNativeElement(viewHandler).ContentDescription}";
 

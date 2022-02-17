@@ -79,5 +79,16 @@ namespace Microsoft.Maui.Handlers
 				handler.MauiContext.GetNavigationRootManager().SetToolbar(toolBar);
 			}
 		}
+
+		public virtual bool NeedsContainer
+		{
+			get
+			{
+				if (VirtualView is IBorderView border)
+					return border?.Shape != null || border?.Stroke != null;
+
+				return false;
+			}
+		}
 	}
 }

@@ -189,5 +189,14 @@ namespace Microsoft.Maui.Handlers
 
 			appbarLayout.AddView(nativeToolBar, 0);
 		}
+
+		public virtual bool NeedsContainer
+		{
+			get
+			{
+				return VirtualView?.Clip != null || VirtualView?.Shadow != null 
+					|| (VirtualView as IBorder)?.Border != null || VirtualView?.InputTransparent == true;
+			}
+		}
 	}
 }

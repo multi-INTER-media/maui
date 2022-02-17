@@ -13,6 +13,8 @@ namespace Microsoft.Maui.Platform
 	{
 		readonly ARect _clipRect = new();
 
+		public bool InputTransparent { get; set; }
+
 		public LayoutViewGroup(Context context) : base(context)
 		{
 		}
@@ -86,6 +88,16 @@ namespace Microsoft.Maui.Platform
 			{
 				ClipBounds = null;
 			}
+		}
+
+		public override bool OnTouchEvent(MotionEvent? e)
+		{
+			if (InputTransparent)
+			{
+				return false;
+			}
+
+			return base.OnTouchEvent(e);
 		}
 
 		internal Func<double, double, Size>? CrossPlatformMeasure { get; set; }

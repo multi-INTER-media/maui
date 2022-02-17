@@ -89,21 +89,6 @@ namespace Microsoft.Maui.Handlers
 
 		protected abstract void RemoveContainer();
 
-		public virtual bool NeedsContainer
-		{
-			get
-			{
-#if WINDOWS
-				if(VirtualView is IBorderView border)
-					return border?.Shape != null || border?.Stroke != null;
-				
-				return false;
-#else
-				return VirtualView?.Clip != null || VirtualView?.Shadow != null || (VirtualView as IBorder)?.Border != null;
-#endif
-			}
-		}
-
 		public NativeView? ContainerView { get; private protected set; }
 
 		object? IViewHandler.ContainerView => ContainerView;

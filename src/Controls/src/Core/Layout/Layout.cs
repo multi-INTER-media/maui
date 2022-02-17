@@ -279,5 +279,48 @@ namespace Microsoft.Maui.Controls
 		{
 			return LayoutManager.ArrangeChildren(bounds);
 		}
+
+		internal static new void RemapForControls()
+		{
+			ViewHandler.ViewMapper = ControlsLayoutMapper;
+		}
+
+		public static readonly BindableProperty CascadeInputTransparentProperty =
+			BindableProperty.Create(nameof(CascadeInputTransparent), typeof(bool), typeof(Layout), true);
+
+		public bool CascadeInputTransparent
+		{
+			get => (bool)GetValue(CascadeInputTransparentProperty);
+			set => SetValue(CascadeInputTransparentProperty, value);
+		}
+
+		public static IPropertyMapper<IView, IViewHandler> ControlsLayoutMapper = new PropertyMapper<Layout, LayoutHandler>(VisualElement.ControlsVisualElementMapper)
+		{
+			[nameof(CascadeInputTransparent)] = MapInputTransparent,
+			[nameof(IView.InputTransparent)] = MapInputTransparent,
+		};
+
+		void UpdateDescendantInputTransparent() 
+		{
+			if (!InputTransparent || !CascadeInputTransparent)
+			{
+				// We only need to propagate values if the layout is InputTransparent AND Cascade is true
+				return;
+			}
+
+			// Set all the child InputTransparent values to match this one
+			for (int n = 0; n < Count; n++)
+			{
+				if (this[n] is VisualElement visualElement)
+				{
+					visualElement.InputTransparent = true;
+				}
+			}
+
+			// OnAdd and OnInsert need to set the right value for the control
+			// OnUpdate should set it for the new control
+
+			// What should OnRemove/OnUpdate/OnClear do for removed controls? -- nothing, it should leave them as they are
+		}
 	}
 }

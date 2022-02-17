@@ -136,7 +136,7 @@ namespace Microsoft.Maui.Handlers
 			}
 		}
 
-		int IndexOf(ViewGroup viewGroup, AView view)
+		static int IndexOf(ViewGroup viewGroup, AView view)
 		{
 			for (int n = 0; n < viewGroup.ChildCount; n++)
 			{
@@ -147,6 +147,14 @@ namespace Microsoft.Maui.Handlers
 			}
 
 			return -1;
+		}
+
+		static void MapInputTransparent(ILayoutHandler handler, ILayout layout)
+		{
+			if (handler.NativeView is LayoutViewGroup layoutViewGroup)
+			{
+				layoutViewGroup.InputTransparent = layout.InputTransparent;
+			}
 		}
 	}
 }

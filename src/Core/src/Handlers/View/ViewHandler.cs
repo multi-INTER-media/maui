@@ -201,7 +201,7 @@ namespace Microsoft.Maui.Handlers
 
 		public static void MapInputTransparent(IViewHandler handler, IView view)
 		{
-			((NativeView?)handler.NativeView)?.UpdateInputTransparent(view);
+			((PlatformView?)handler.PlatformView)?.UpdateInputTransparent(view);
 		}
 
 		public static void MapVisibility(IViewHandler handler, IView view)
